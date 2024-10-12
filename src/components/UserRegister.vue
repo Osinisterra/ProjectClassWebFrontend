@@ -38,7 +38,7 @@ export default defineComponent({
 
     const registerUser = async () => {
       try {
-        const response = await axios.post('http://localhost:3000/register', {
+        const response = await axios.post('http://localhost:3000/api/users/register', {
           email: email.value,
           password: password.value,
           createdBy: 'admin@example.com'
