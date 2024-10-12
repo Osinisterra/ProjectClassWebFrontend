@@ -8,7 +8,10 @@
       <h2>Registro de Usuario</h2>
       <br />
       <div>
-        <input v-model="email" type="email" placeholder="Email" required class="input-field" />
+        <input v-model="email" type="email" placeholder="Correo" required class="input-field" />
+      </div>
+      <div>
+        <input v-model="name" type="text" placeholder="Nombre" required class="input-field" />
       </div>
       <div>
         <input
@@ -19,6 +22,13 @@
           class="input-field"
         />
       </div>
+      <div>
+        <label>
+          <input v-model="termsAccepted" type="checkbox" required />
+          Acepto los <a href="/terms" target="_blank">términos y condiciones</a>
+        </label>
+      </div>
+      <br />
       <button type="submit" class="submit-button">Registrar</button>
     </form>
   </div>
@@ -32,15 +42,19 @@ import axios from 'axios'
 export default defineComponent({
   name: 'UserRegister', // Cambia aquí el nombre del componente
   setup() {
+    const name = ref('')
     const email = ref('')
     const password = ref('')
+    const termsAccepted = ref(false) // Campo para aceptar términos
     const router = useRouter()
 
     const registerUser = async () => {
       try {
         const response = await axios.post('http://localhost:3000/api/users/register', {
+          name: name.value,
           email: email.value,
           password: password.value,
+          termsAccepted: termsAccepted.value,
           createdBy: 'admin@example.com'
         })
         alert('Registro exitoso: ' + response.data.message)
@@ -51,8 +65,10 @@ export default defineComponent({
     }
 
     return {
+      name,
       email,
       password,
+      termsAccepted,
       registerUser
     }
   }
@@ -126,6 +142,10 @@ nav {
 }
 
 h2 {
+  color: rgb(90, 90, 90);
+}
+
+label {
   color: rgb(90, 90, 90);
 }
 </style>
